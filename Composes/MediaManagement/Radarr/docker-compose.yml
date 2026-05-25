@@ -1,0 +1,19 @@
+name: radarr
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HOME}/ContainerDBs/radarr:/config
+      - ${HOME}/Media:/data
+    restart: unless-stopped
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

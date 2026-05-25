@@ -1,0 +1,11 @@
+name: watchtower
+services:
+  watchtower:
+    container_name: watchtower
+    image: nickfedor/watchtower:latest
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOCKER_API_VERSION=1.40
+    command: --interval 60 --label-enable --cleanup

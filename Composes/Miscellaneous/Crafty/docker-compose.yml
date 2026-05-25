@@ -1,0 +1,64 @@
+name: crafty
+services:
+  crafty:
+    cpu_shares: 90
+    command: []
+    container_name: crafty-container
+    deploy:
+      resources:
+        limits:
+          memory: 16000M
+    environment:
+      - TZ=Etc/UTC
+      - PUID=1000
+      - PGID=1000
+    hostname: crafty-container
+    image: registry.gitlab.com/crafty-controller/crafty-4:4.10.2
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8110"
+        protocol: tcp
+      - mode: ingress
+        target: 8443
+        published: "8111"
+        protocol: tcp
+      - mode: ingress
+        target: 8123
+        published: "8112"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: ${HOME}/ContainerDBs/crafty/backups
+        target: /crafty/backups
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ${HOME}/ContainerDBs/crafty/logs
+        target: /crafty/logs
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ${HOME}/ContainerDBs/crafty/servers
+        target: /crafty/servers
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ${HOME}/ContainerDBs/crafty/config
+        target: /crafty/app/config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ${HOME}/ContainerDBs/crafty/import
+        target: /crafty/import
+        bind:
+          create_host_path: true
+    devices: []
+    cap_add: []
+    privileged: false
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

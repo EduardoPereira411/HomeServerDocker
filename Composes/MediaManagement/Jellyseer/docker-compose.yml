@@ -1,0 +1,17 @@
+name: jellyseerr
+services:
+  jellyseerr:
+    container_name: jellyseerr
+    image: fallenbagel/jellyseerr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+    volumes:
+      - ${HOME}/ContainerDBs/jellyseerr:/config
+    restart: unless-stopped
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

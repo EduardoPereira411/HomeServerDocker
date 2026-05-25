@@ -1,0 +1,16 @@
+name: housewebsite
+services:
+  web:
+    image: staydead/house_website:latest
+    container_name: housewebsite
+    restart: always
+    networks:
+      - proxy_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      - API_PROXY_URL=${ENV_API_PROXY_URL}
+      - MUSIC_DOWNLOAD_API_TARGET= ${ENV_MUSIC_DOWNLOAD_API_TARGET}
+networks:
+  proxy_network:
+    external: true

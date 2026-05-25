@@ -1,0 +1,20 @@
+name: musicdownloadapi
+
+services:
+  api:
+    image: staydead/music_download_api:latest
+    container_name: musicdownloadapi
+    restart: unless-stopped
+    user: "1000:1000"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    volumes:
+      - ${HOME}/Media/Music:/Music
+      - ${HOME}/ContainerDBs/music_download_api/temp:/temp
+    environment:
+      - MUSIC_BASE_DIR=/Music
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

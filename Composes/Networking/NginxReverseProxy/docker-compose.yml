@@ -1,0 +1,29 @@
+name: nginxproxymanager
+services:
+  nginxproxymanager:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: nginxproxymanager
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+      - "25565:25565"
+      - "25566:25566"
+      - "25560:25560"
+    volumes:
+      - type: bind
+        source: ${HOME}/ContainerDBs/nginx/data
+        target: /data
+      - type: bind
+        source: ${HOME}/ContainerDBs/nginx/letsencrypt
+        target: /etc/letsencrypt
+    restart: unless-stopped
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

@@ -1,0 +1,17 @@
+name: tuya-exporter
+services:
+  tuya-exporter:
+    image: ghcr.io/luizbizzio/tuya-smart-plug-exporter:latest
+    container_name: tuya-exporter
+    environment:
+      - TUYA_DEVICE_ID=${ENV_TUYA_DEVICE_ID}
+      - TUYA_LOCAL_KEY=${ENV_TUYA_LOCAL_KEY}
+      - TUYA_IP=${ENV_TUYA_IP}
+    restart: unless-stopped
+    volumes:
+      - ${HOME}/ContainerDBs/tuya/config:/config:ro
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

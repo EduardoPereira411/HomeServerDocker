@@ -1,0 +1,17 @@
+name: mediaconverterapi
+
+services:
+  api:
+    image: staydead/convert_media_api:latest
+    container_name: mediaconverterapi
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    volumes:
+      - ${HOME}/Media:/Media
+      - ${HOME}/MEDIABACKUP:/MEDIABACKUP
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

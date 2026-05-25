@@ -1,0 +1,47 @@
+name: bookstack
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - APP_URL=${ENV_APP_URL}
+      - APP_KEY=${ENV_APP_KEY}
+      - DB_HOST=bookstack_db
+      - DB_PORT=3306
+      - DB_USERNAME=${ENV_DB_USERNAME}
+      - DB_PASSWORD=${ENV_DB_PASSWORD}
+      - DB_DATABASE=bookstack_app
+      - QUEUE_CONNECTION= #optional
+    volumes:
+      - type: bind
+        source: ${HOME}/ContainerDBs/bookstack/config
+        target: /config
+    restart: unless-stopped
+    ports:
+      - 6875:80/tcp
+    networks:
+      - proxy_network
+  bookstack_db:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: bookstack_db
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - MYSQL_ROOT_PASSWORD=${ENV_DB_PASSWORD}
+      - MYSQL_DATABASE=bookstack_app
+      - MYSQL_USER=${ENV_DB_USERNAME}
+      - MYSQL_PASSWORD=${ENV_DB_PASSWORD}
+    volumes:
+      - type: bind
+        source: ${HOME}/ContainerDBs/bookstack/dbConfig
+        target: /config
+    restart: unless-stopped
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

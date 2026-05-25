@@ -1,0 +1,16 @@
+name: logporter
+services:
+  logporter:
+      image: lifailon/logporter:latest
+      container_name: logporter
+      restart: unless-stopped
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - proxy_network
+      environment:
+        - DOCKER_LOG_METRICS=false # Set to true if you want total log counts
+        - DOCKER_LOG_CUSTOM_METRICS=false
+networks:
+  proxy_network:
+    external: true

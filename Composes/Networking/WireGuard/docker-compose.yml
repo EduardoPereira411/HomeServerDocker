@@ -1,0 +1,47 @@
+name: wireguard
+services:
+  wireguard:
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    cpu_shares: 90
+    command: []
+    container_name: wireguard
+    deploy:
+      resources:
+        limits:
+          memory: 3385M
+    environment:
+      - ALLOWEDIPS=0.0.0.0/0
+      - PEERDNS=${ENV_PEER_DNS}
+      - PEERS=${ENV_PEERS}
+      - PGID=1000
+      - PUID=1000
+      - SERVERPORT=51820
+      - SERVERURL=${ENV_SERVER_URL}
+      - TZ=Europe/Portugal
+    hostname: wireguard
+    image: lscr.io/linuxserver/wireguard:latest
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/WireGuardEasy/icon.png
+    ports:
+      - target: 51820
+        published: "51820"
+        protocol: udp
+    restart: unless-stopped
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: "1"
+    volumes:
+      - type: bind
+        source: ${HOME}/ContainerDBs/wireguard/config
+        target: /config
+      - type: bind
+        source: /lib/modules
+        target: /lib/modules
+    devices: []
+    privileged: false
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true

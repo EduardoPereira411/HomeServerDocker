@@ -1,0 +1,39 @@
+name: torrenting
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3.39.0
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - DNS_ADDRESS=10.2.0.1
+      - VPN_SERVICE_PROVIDER=${ENV_VPN_SERVICE_PROVIDER}
+      - OPENVPN_USER= ${ENV_OPENVPN_USER}
+      - OPENVPN_PASSWORD= ${ENV_OPENVPN_PASSWORD}
+      - SERVER_COUNTRIES=${ENV_SERVER_COUNTRIES}
+    volumes:
+      - ${HOME}/ContainerDBs/gluetun:/gluetun
+    restart: unless-stopped
+    networks:
+      - proxy_network
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+      - WEBUI_PORT=8080 # must match "qbittorrent web interface" port number in gluetun's service above
+    volumes:
+      - ${HOME}/ContainerDBs/qbittorrent:/config
+      - ${HOME}/Media:/data
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+
+networks:
+  proxy_network:
+    external: true

@@ -1,0 +1,19 @@
+name: sonarr
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HOME}/ContainerDBs/sonarr:/config
+      - ${HOME}/Media:/data
+    restart: unless-stopped
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true
