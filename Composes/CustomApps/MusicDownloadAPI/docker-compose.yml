@@ -13,6 +13,7 @@ services:
       - ${HOME}/ContainerDBs/music_download_api/temp:/temp
     environment:
       - MUSIC_BASE_DIR=/Music
+      - HOME=/tmp
     networks:
       - proxy_network
 networks:
