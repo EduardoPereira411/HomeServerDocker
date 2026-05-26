@@ -1,8 +1,8 @@
-# Set up cron job to get size of custom directories
+# Set up cron job to get size of custom directories, to do it manually do "sudo crontab -e"
 echo "Setting up cron jobs..."
 
 CRON_SCRIPT_PATH="${HOME}/ContainerDBs/nodeExporter/GetDirSize.sh"
-CRON_JOB="*/5 * * * * $CRON_SCRIPT_PATH"
+CRON_JOB="0 */2 * * * $CRON_SCRIPT_PATH"
 
 if [ -f "$CRON_SCRIPT_PATH" ]; then
     chmod +x "$CRON_SCRIPT_PATH"
