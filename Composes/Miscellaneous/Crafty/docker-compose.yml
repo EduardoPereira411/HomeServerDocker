@@ -27,6 +27,9 @@ services:
         target: 8123
         published: "8112"
         protocol: tcp
+      - "25565:25565"
+      - "25566:25566"
+      - "25560:25560"
     restart: always
     volumes:
       - type: bind

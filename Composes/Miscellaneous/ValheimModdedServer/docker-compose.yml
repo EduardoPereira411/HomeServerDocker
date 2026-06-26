@@ -1,0 +1,31 @@
+name: valheim
+
+services:
+  valheim-server:
+    image: "lloesche/valheim-server:latest"
+    pull_policy: always
+    container_name: "valheim-server"
+    # Force the container to use public DNS for external routing
+    security_opt:
+      - seccomp=unconfined
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - SERVER_NAME=${VALHEIM_SERVER_NAME}
+      - WORLD_NAME=${VALHEIM_WORLD_NAME}
+      - SERVER_PASS=${VALHEIM_PASSWORD}
+      - SERVER_PORT=${VALHEIM_PORT}
+      - SERVER_PUBLIC=${VALHEIM_PUBLIC}
+      - BEPINEX=true
+      - SERVER_ARGS=-preset normal -modifier resources more -modifier portals casual
+    volumes:
+      - type: bind
+        source: ${HOME}/ContainerDBs/valheim/saves
+        target: /config
+    networks:
+      - proxy_network
+    restart: always
+
+networks:
+  proxy_network:
+    external: true
