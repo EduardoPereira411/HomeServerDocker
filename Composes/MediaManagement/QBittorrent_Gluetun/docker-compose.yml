@@ -1,7 +1,7 @@
 name: torrenting
 services:
   gluetun:
-    image: qmcgaw/gluetun:v3.39.0
+    image: qmcgaw/gluetun:v3.41.1
     container_name: gluetun
     cap_add:
       - NET_ADMIN
@@ -10,14 +10,18 @@ services:
     environment:
       - DNS_ADDRESS=10.2.0.1
       - VPN_SERVICE_PROVIDER=${ENV_VPN_SERVICE_PROVIDER}
-      - OPENVPN_USER= ${ENV_OPENVPN_USER}
-      - OPENVPN_PASSWORD= ${ENV_OPENVPN_PASSWORD}
+      - OPENVPN_USER=${ENV_OPENVPN_USER}
+      - OPENVPN_PASSWORD=${ENV_OPENVPN_PASSWORD}
       - SERVER_COUNTRIES=${ENV_SERVER_COUNTRIES}
+      - VPN_PORT_FORWARDING=on
+      - VPN_PORT_FORWARDING_PROVIDER=${ENV_VPN_SERVICE_PROVIDER}
     volumes:
       - ${HOME}/ContainerDBs/gluetun:/gluetun
+      - ${HOME}/ContainerDBs/gluetun/tmp:/tmp/gluetun
     restart: unless-stopped
     networks:
       - proxy_network
+
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
