@@ -17,7 +17,7 @@ services:
       - PUID=1000
       - TZ=Etc/UTC
     hostname: jellyfin
-    image: linuxserver/jellyfin:10.10.3
+    image: linuxserver/jellyfin:10.11.10
     labels:
       icon: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Jellyfin/icon.png
     ports:

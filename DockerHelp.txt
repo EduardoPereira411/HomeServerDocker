@@ -1,0 +1,16 @@
+To add group ownership to a folder, so both my user and docker can change it at will, do the following commands
+    - "sudo chgrp -R ${yourgroup} ${/path/to/volume}", with the "yourgroup" being the username and the path being the absolute path to the folder
+    - "sudo chmod -R g+rwX ${/path/to/volume}" 
+
+To make it so folders created by docker in the future not be inacessible the the user do:
+    - "sudo usermod -aG docker $USER"
+
+To get the container running put the compose file in the root directory as "docker-compose.yml" and execute "docker compose up -d" on the console
+
+
+How to commit a image to docker hub (based on this video https://www.youtube.com/watch?v=f2sDOaOzKPM):
+- Create image with a dockerfile
+- List the docker Images with "docker images" to see the name of it
+- Create a version of the image withyou username, contaienr name and version using a command like "docker tag IMAGENAME staydead/IMAGENAME:v1.0"
+- Login to docker if you're not already logged in
+- Push the new image to Docker Hub with something like "docker push staydead/IMAGENAME:v1.0"

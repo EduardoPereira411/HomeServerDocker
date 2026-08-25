@@ -1,0 +1,1 @@
+For reverse proxy to work on phone, you need to install the ca.pem file on it and also you will need to disable "private dns" on the settings
