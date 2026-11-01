@@ -1,0 +1,2 @@
+If you lose the APP_KEY hash, you will have to generate a new one with "docker run -it --rm --entrypoint /bin/bash lscr.io/linuxserver/bookstack:latest appkey". And since you can no longer decrypt the passwords you will lose access to all the users. You can either setup a smtp and recover the password, or follow these steps:
+"docker exec -it bookstack bash" then "cd /app/www" then "php artisan bookstack:create-admin" and create a new admin
