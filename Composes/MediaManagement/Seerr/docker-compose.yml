@@ -1,0 +1,15 @@
+name: seerr
+services:
+  seerr:
+    container_name: seerr
+    image: ghcr.io/seerr-team/seerr:latest
+    environment:
+      - TZ=Europe/Lisbon
+    volumes:
+      - ${HOME}/ContainerDBs/seerr:/app/config
+    restart: unless-stopped
+    networks:
+      - proxy_network
+networks:
+  proxy_network:
+    external: true
